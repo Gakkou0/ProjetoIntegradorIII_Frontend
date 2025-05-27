@@ -1,54 +1,57 @@
-# React + TypeScript + Vite
+# Crateús Shop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Crateús Shop é uma plataforma digital criada com o objetivo de dar visibilidade às lojas de pequeno e médio porte da cidade de Crateús-CE. Através de uma vitrine online moderna e acessível, lojistas locais podem expor seus produtos de forma simples, prática e gratuita, alcançando um público maior e fortalecendo o comércio regional.
 
-Currently, two official plugins are available:
+Com o Crateús Shop, buscamos:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Estimular a economia local
 
-## Expanding the ESLint configuration
+- Facilitar a conexão entre comerciantes e consumidores
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Digitalizar o comércio de bairros e centros comerciais
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- Valorizar o empreendedorismo crateuense
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Seja você um lojista ou consumidor.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Como rodar o projeto
+
+### Requisitos
+- Node.js instalado (versão 14 ou superior recomendada)
+- Yarn instalado globalmente (`npm install -g yarn`)
+
+### Passos para rodar localmente
+
+1. Clone o repositório:
+   ```bash
+   git clone <url-do-repositorio>
+   ```
+2. Acesse a pasta do projeto:
+   ```bash
+   cd ProjetoIntegradorIII_Frontend
+   ```
+3. Instale as dependências:
+   ```bash
+   yarn install
+   ```
+4. Inicie o servidor de desenvolvimento:
+   ```bash
+   yarn dev
+   ```
+5. Abra no navegador o endereço:
+   ```
+   http://localhost:5173
+   ```
+
+---
+
+### Observações
+
+- Certifique-se de ter o Node.js e Yarn instalados.
+- Caso tenha problemas com dependências, tente deletar `node_modules` e `yarn.lock` e instalar novamente.
+
+---
+
+**Feito com ❤️ usando Vite e Yarn**
