@@ -9,7 +9,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black">
-      <div className="w-full max-w-xs bg-white rounded-lg shadow-lg">
+      <div className="bg-white">
         <div className="bg-orange-500 p-6 text-center">
           <img src="/logo-crateus-shop.png" alt="Logo" className="mx-auto mb-2 w-16" />
         </div>
