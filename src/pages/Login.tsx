@@ -1,28 +1,63 @@
-
 import { Link } from 'react-router-dom';
-
 import { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import apiService from '../services/apiService';
+import { useAlert } from '../contexts/AlertContext';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const { showAlert } = useAlert();
+
+  const handleLogin = async () => {
+    try {
+      const response = await apiService.post(`auth/login`, {
+        email: email,
+        password: senha,
+        },{
+        withCredentials: true
+      })
+
+      console.log(response.data);
+
+      if (response.status === 200) {
+        navigate('/telainicial')
+      } 
+
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+      showAlert({ type: 'error', message: 'Erro ao fazer login. Verifique suas credenciais.' });
+    }
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <div className="bg-white">
+    <div className="min-h-screen w-full bg-white flex items-center justify-center px-4 py-6">
+      <div className="w-full max-w-md lg:max-w-2xl shadow-lg rounded-lg overflow-hidden">
+
         <div className="bg-orange-500 p-6 text-center">
-          <img src="/logo-crateus-shop.png" alt="Logo" className="mx-auto mb-2 w-16" />
+          <img
+            src="/logo-crateus-shop.png"
+            alt="Logo"
+            className="mx-auto mb-2 w-16 md:w-20"
+          />
         </div>
 
-        <div className="px-6 py-4">
-          <h2 className="text-xl font-semibold text-center mb-6">Olá, Bem vindo!</h2>
+        <div className="px-6 py-6 md:px-10 md:py-8 bg-white">
+          <h2 className="text-xl md:text-2xl font-semibold text-center mb-6">
+            Olá, Bem vindo!
+          </h2>
 
           <div className="mb-4 relative">
             <Mail className="absolute left-3 top-3.5 text-gray-500" size={18} />
             <input
               type="email"
               placeholder="Digite seu email..."
-              className="pl-10 pr-4 py-2 w-full border-b border-gray-400 focus:outline-none"
+              className="pl-10 pr-4 py-2 w-full border-b border-gray-400 focus:outline-none text-sm"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -32,7 +67,9 @@ export default function Login() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Digite sua senha..."
-                className="pl-10 pr-10 py-2 w-full border-b border-gray-400 focus:outline-none"
+                className="pl-10 pr-10 py-2 w-full border-b border-gray-400 focus:outline-none text-sm"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
               />
               <button
                 type="button"
@@ -44,13 +81,18 @@ export default function Login() {
             </div>
 
             <div className="flex justify-end mt-1">
-              <span className="text-sm text-blue-600 hover:underline cursor-pointer">
+              <Link
+                to="/redefinirsenha"
+                className="text-sm text-blue-600 hover:underline"
+              >
                 Esqueceu?
-              </span>
+              </Link>
             </div>
           </div>
-          
-          <button className="bg-orange-500 hover:bg-orange-600 text-white w-full py-2 rounded mt-4 font-semibold">
+
+          <button
+            className="bg-orange-500 hover:bg-orange-600 text-white w-full py-2 rounded mt-4 font-semibold"
+            onClick={ handleLogin }>
             ENTRAR
           </button>
 

@@ -9,19 +9,47 @@ import {
   Phone,
   Bell,
 } from 'lucide-react';
+import {useState, useEffect} from 'react';
+import apiService from '../services/apiService';
+import defautImage from '../assets/defaut.png';
+import { useParams } from 'react-router-dom';
+import Product from '../types/Product';
 
 export default function TelaProduto() {
-  const produto = {
-    nome: 'Camisa sem estampa azul, vários tamanhos',
-    preco: 'R$34,99',
-    estoque: 9,
-    tamanhos: ['P', 'M', 'G'],
-    avaliacao: 4.9,
-    qtdAvaliacoes: 25,
-    descricao:
-      'Camisa 100% algodão, disponível nos tamanhos P, M e G. Ideal para o dia a dia.',
-    imagem: '/camisa-azul.png',
-  };
+
+  const [produtoInfo, setProdutoInfo] = useState<Product>();
+  const [quantity, setQuantity] = useState(1);
+  const path = useParams();
+
+  const quantityUp = () => {
+    setQuantity(prev => prev + 1);
+  }
+
+  const quantityDown = () => {
+    if (quantity > 1) {
+      setQuantity(prev => prev - 1);
+    }
+  }
+
+  useEffect(() => {
+
+    try {
+      const fetchProduto = async () => {
+        const response = await apiService.get(`/products/${path.productId}`, {
+          withCredentials: true
+        });
+        setProdutoInfo(response.data);
+
+      };
+      fetchProduto();
+    } catch (error) {
+      console.error('Erro ao buscar produto:', error);
+    } 
+  }, []);
+
+  if (!produtoInfo) {
+    return <div>Carregando...</div>;
+  }
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col">
@@ -37,43 +65,52 @@ export default function TelaProduto() {
       </div>
 
       <div className="relative max-w-4xl w-full mx-auto px-4 pt-4">
-        <button className="absolute left-6 top-4 text-gray-600">
+        <button className="absolute left-6 top-4 text-gray-600"
+          onClick={() => window.history.back()}>
           <ChevronLeft size={20} />
         </button>
         <img
-          src={produto.imagem}
-          alt={produto.nome}
+          src={produtoInfo.imageUrl || defautImage}
+          alt={produtoInfo.name}
           className="w-full h-60 object-contain"
         />
       </div>
 
       <div className="max-w-4xl w-full mx-auto px-4 pb-40">
-        <p className="font-medium mt-4">{produto.nome}</p>
-        <p className="text-orange-600 font-bold text-lg">{produto.preco}</p>
+        <p className="font-medium mt-4">{produtoInfo.name}</p>
+        <p className="text-orange-600 font-bold text-lg">{produtoInfo.price}</p>
         <p className="text-gray-500 text-sm">
-          {produto.estoque} unidades disponíveis
+          {produtoInfo.stockQuantity} unidades disponíveis
         </p>
 
         <div className="mt-4">
-          <p className="font-semibold text-sm mb-1">Tamanhos</p>
+          <p className="font-semibold text-sm mb-1">Quantidade</p>
           <div className="flex gap-2">
-            {produto.tamanhos.map((tamanho) => (
+            <div className="flex items-center border rounded w-[90px] justify-between">
               <button
-                key={tamanho}
-                className="border border-gray-300 rounded px-3 py-1 text-sm hover:bg-gray-100"
+                onClick={quantityDown}
+                className="w-8 h-8 text-gray-500 disabled:opacity-40"
+                disabled={quantity === 1}
               >
-                {tamanho}
+                –
               </button>
-            ))}
+              <span className="w-8 text-center">{quantity}</span>
+              <button
+                onClick={quantityUp}
+                className="w-8 h-8 text-gray-500"
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
 
         <div className="mt-4 flex items-center text-sm text-gray-700">
           <span className="flex items-center font-semibold mr-1">
-            {produto.avaliacao}
+            {}
             <Star className="text-yellow-500 ml-1" size={16} />
           </span>
-          <span>Avaliações do produto ({produto.qtdAvaliacoes})</span>
+          <span>Avaliações do produto (9)</span>
           <span className="ml-auto text-blue-600 text-xs cursor-pointer hover:underline">
             Ver mais
           </span>
@@ -81,7 +118,7 @@ export default function TelaProduto() {
 
         <div className="mt-4">
           <p className="font-semibold text-sm mb-1">Descrição</p>
-          <p className="text-sm text-gray-700">{produto.descricao}</p>
+          <p className="text-sm text-gray-700">{produtoInfo.description}</p>
         </div>
       </div>
 

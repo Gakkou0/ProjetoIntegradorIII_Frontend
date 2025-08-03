@@ -1,10 +1,60 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
+import apiService from '../services/apiService';
+import { useAlert } from '../contexts/AlertContext';
+import { useNavigate } from 'react-router-dom';
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Cadastro() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const { showAlert } = useAlert();
+  const navigate = useNavigate();
+
+  const confirmeInfomation = async () => {
+    
+    if (name.trim() === '' || email.trim() === '' || password.trim() === '') {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    if (!EMAIL_REGEX.test(email)) {
+      alert('Por favor, insira um email válido.');
+      return;
+    }
+
+    if (password.length < 8) {
+      alert('A senha deve ter pelo menos 8 caracteres.');
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      alert('As senhas não coincidem. Por favor, tente novamente.');
+      return;
+    }
+
+    const response = await apiService.post('users', {
+      username: name,
+      email: email,
+      password: password,
+    }, {
+      withCredentials: true})
+   
+    if (response.status !== 201) 
+        return showAlert({ type: 'error', message: 'Erro ao cadastrar usuário.' });
+    else {
+      showAlert({ type: 'success', message: 'Usuário cadastrado com sucesso!' });
+      
+      return navigate('/cadastro/endereco')
+    }
+
+  };
 
   return (
     <div className="min-h-screen w-full bg-white flex items-center justify-center px-4 py-6">
@@ -33,6 +83,7 @@ export default function Cadastro() {
               type="text"
               placeholder="Digite seu nome completo..."
               className="pl-10 pr-4 py-2 w-full border-b border-gray-400 focus:outline-none text-sm"
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
 
@@ -42,6 +93,7 @@ export default function Cadastro() {
               type="email"
               placeholder="Digite seu email..."
               className="pl-10 pr-4 py-2 w-full border-b border-gray-400 focus:outline-none text-sm"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -51,6 +103,7 @@ export default function Cadastro() {
               type={showPassword ? 'text' : 'password'}
               placeholder="Digite sua senha..."
               className="pl-10 pr-10 py-2 w-full border-b border-gray-400 focus:outline-none text-sm"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"
@@ -67,6 +120,7 @@ export default function Cadastro() {
               type={showConfirmPassword ? 'text' : 'password'}
               placeholder="Digite sua senha novamente..."
               className="pl-10 pr-10 py-2 w-full border-b border-gray-400 focus:outline-none text-sm"
+              onChange ={(e) => setConfirmPassword(e.target.value)}
             />
             <button
               type="button"
@@ -77,11 +131,10 @@ export default function Cadastro() {
             </button>
           </div>
 
-          <Link to="/cadastro/endereco">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white w-full py-2 rounded mt-2 font-semibold">
+            <button className="bg-orange-500 hover:bg-orange-600 text-white w-full py-2 rounded mt-2 font-semibold"
+            onClick={() => confirmeInfomation()}>
               CONTINUAR
             </button>
-          </Link>
 
           <div className="flex items-center my-4">
             <div className="flex-grow h-px bg-gray-300" />
@@ -108,3 +161,4 @@ export default function Cadastro() {
     </div>
   );
 }
+
