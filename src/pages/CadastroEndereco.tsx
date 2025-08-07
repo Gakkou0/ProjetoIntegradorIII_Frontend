@@ -1,9 +1,11 @@
 import {useState, useEffect} from 'react'
 import PageMeta from '../components/PageMeta';
+import { useNavigate } from 'react-router-dom';
 
 export default function CadastroEndereco() {
 
   const [address, setAddress] = useState()
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen w-full bg-white flex items-center justify-center px-4 py-6">
@@ -63,7 +65,7 @@ export default function CadastroEndereco() {
             />
           </div>
 
-          <button className="bg-orange-500 hover:bg-orange-600 text-white w-full py-2 rounded font-semibold">
+          <button className="bg-orange-500 hover:bg-orange-600 text-white w-full py-2 rounded font-semibold" onClick={() => navigate('/')}>
             CADASTRAR
           </button>
         </div>

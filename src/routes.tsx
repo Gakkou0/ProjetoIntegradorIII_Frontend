@@ -8,7 +8,6 @@ import CadastroProduto from './pages/CadastroProduto';
 import Notificacoes from './pages/Notificacoes';
 import Carrinho from './pages/Carrinho';
 import Usuario from './pages/Usuario';
-import UsuarioVendedor from './pages/UsuarioVendedor';
 import UsuarioEdit from './pages/UsuarioEdit';
 import LojaEdit from './pages/LojaEdit';
 import CadastroLoja from './pages/CadastroLoja';
@@ -27,7 +26,6 @@ export default function AppRoutes() {
             <Route path="/notificacoes" element={<Notificacoes />} />
             <Route path="/carrinho" element={<Carrinho />} />
             <Route path="/usuario" element={<Usuario />} />
-            <Route path="/usuariovendedor" element={<UsuarioVendedor />} />
             <Route path="/usuarioedit" element={<UsuarioEdit />} />
             <Route path="/lojaedit" element={<LojaEdit />} />
             <Route path="/cadastroloja" element={<CadastroLoja />} />
