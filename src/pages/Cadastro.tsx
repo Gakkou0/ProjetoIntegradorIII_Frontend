@@ -4,6 +4,7 @@ import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 import apiService from '../services/apiService';
 import { useAlert } from '../contexts/AlertContext';
 import { useNavigate } from 'react-router-dom';
+import PageMeta from '../components/PageMeta';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -58,6 +59,7 @@ export default function Cadastro() {
 
   return (
     <div className="min-h-screen w-full bg-white flex items-center justify-center px-4 py-6">
+      <PageMeta title='Cadastro'></PageMeta>
       <div className="w-full max-w-md lg:max-w-2xl shadow-lg rounded-lg overflow-hidden">
 
         <div className="bg-orange-500 p-6 text-center">

@@ -4,6 +4,8 @@ import apiService from '../services/apiService';
 import { useEffect, useState } from 'react';
 import Product from '../types/Product';
 import defaultImage from '../assets/defaut.png';
+import NavBottom from '../components/navBottom';
+import PageMeta from '../components/PageMeta';
 
 export default function TelaInicial() {
   const navigate = useNavigate();
@@ -26,6 +28,7 @@ export default function TelaInicial() {
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col">
+      <PageMeta title='Início'></PageMeta>
       <div className="bg-orange-500 p-4 shadow-md">
         <div className="max-w-4xl mx-auto flex items-center bg-white rounded-md px-3 py-2">
           <Search className="text-gray-500 mr-2" size={18} />
@@ -52,21 +55,7 @@ export default function TelaInicial() {
           </div>
         ))}
       </div>
-
-      <div className="bg-orange-500 p-3 flex justify-around text-white fixed bottom-0 w-full md:relative z-50">
-        <button onClick={() => navigate('/telainicial')}>
-          <Home size={24} />
-        </button>
-        <button onClick={() => navigate('/carrinho')}>
-          <ShoppingCart size={24} />
-        </button>
-        <button onClick={() => navigate('/notificacoes')}>
-          <Bell size={24} />
-        </button>
-        <button onClick={() => navigate('/usuario')}>
-          <User size={24} />
-        </button>
-      </div>
+      <NavBottom></NavBottom>
     </div>
   );
 }

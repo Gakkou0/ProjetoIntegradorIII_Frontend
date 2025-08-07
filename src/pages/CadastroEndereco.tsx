@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import PageMeta from '../components/PageMeta';
 
 export default function CadastroEndereco() {
 
@@ -7,7 +8,7 @@ export default function CadastroEndereco() {
   return (
     <div className="min-h-screen w-full bg-white flex items-center justify-center px-4 py-6">
       <div className="w-full max-w-md lg:max-w-2xl shadow-lg rounded-lg overflow-hidden">
-
+        <PageMeta title='Cadastro de endereço'></PageMeta>
         <div className="bg-orange-500 p-6 text-center">
           <img
             src="/logo-crateus-shop.png"

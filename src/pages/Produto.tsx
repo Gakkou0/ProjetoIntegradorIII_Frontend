@@ -14,12 +14,19 @@ import apiService from '../services/apiService';
 import defautImage from '../assets/defaut.png';
 import { useParams } from 'react-router-dom';
 import Product from '../types/Product';
+import cart from '../hooks/cart'
+import { useAlert } from '../contexts/AlertContext';
+import NavBottom from '../components/navBottom';
+
 
 export default function TelaProduto() {
 
   const [produtoInfo, setProdutoInfo] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
   const path = useParams();
+  const { showAlert } = useAlert();
+  
+  const { addToCart } = cart()  
 
   const quantityUp = () => {
     setQuantity(prev => prev + 1);
@@ -130,7 +137,7 @@ export default function TelaProduto() {
             <span className="text-xs">Contato</span>
           </button>
 
-          <button className="flex-1 flex flex-col items-center justify-center py-2 hover:bg-gray-100 text-orange-600">
+          <button className="flex-1 flex flex-col items-center justify-center py-2 hover:bg-gray-100 text-orange-600" onClick={() => addToCart(Number(path.productId), quantity)}>
             <ShoppingCart size={20} />
             <span className="text-xs">Adicionar</span>
           </button>
@@ -140,12 +147,7 @@ export default function TelaProduto() {
           </button>
         </div>
 
-        <div className="bg-orange-500 flex justify-around py-2 text-white">
-          <Home size={22} />
-          <ShoppingCart size={22} />
-          <Bell size={22} />
-          <User size={22} />
-        </div>
+        <NavBottom></NavBottom>
       </div>
     </div>
   );
