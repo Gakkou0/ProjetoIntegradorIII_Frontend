@@ -7,7 +7,8 @@ import {
   Heart,
   Megaphone,
   AlertTriangle,
-  HelpCircle
+  HelpCircle,
+  Plus
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'; 
 import NavBottom from '../components/navBottom';
@@ -49,8 +50,13 @@ export default function Usuario() {
     }
   }
 
+  const actionsWithRole = [
+    { label: 'Seja vendedor', icon: <Store size={18} className="text-pink-600" />, rota: '/cadastroloja', role: 0 },
+    { label: 'Acessar sua loja', icon: <Store size={18} className="text-pink-600" />, role: 1 },
+    { label: 'Adicionar novo produto', icon: <Plus size={18} className="text-green-600" />, rota: '/cadastroProduto', role: 1 }
+  ]
+
   const acoes = [
-    { label: 'Seja vendedor', icon: <Store size={18} className="text-pink-600" />, rota: '/cadastroloja' },
     { label: 'Feedback', icon: <Megaphone size={18} className="text-black" /> },
     { label: 'Configurações', icon: <Settings size={18} className="text-gray-700" />, rota: '/configuracoes' },
     { label: 'Denunciar', icon: <AlertTriangle size={18} className="text-black" /> },
@@ -91,6 +97,20 @@ export default function Usuario() {
         </div>
 
         <div className="px-4 py-4 bg-gray-50 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {
+            actionsWithRole
+            .filter((action) => user?.userRole === action.role)
+            .map((action, index) => (
+              <button
+              key={index}
+              onClick={() => action.rota && navigate(action.rota)} // <-- navegação ativada aqui
+              className="h-[60px] flex items-center justify-start gap-2 px-3 py-2 bg-white shadow rounded text-sm text-left hover:bg-gray-100"
+            >
+              {action.icon}
+              <span>{action.label}</span>
+            </button>
+            ))
+          }
           {acoes.map((acao, index) => (
             <button
               key={index}

@@ -8,6 +8,8 @@ import {
   Smartphone,
   FileText
 } from 'lucide-react';
+import apiService from '../services/apiService';
+import { useNavigate } from 'react-router-dom';
 
 export default function CadastroLojaCPF() {
   const [formData, setFormData] = useState({
@@ -34,8 +36,22 @@ export default function CadastroLojaCPF() {
     if (file) handleChange(campo, file);
   };
 
-  const handleSubmit = () => {
+  const navigate = useNavigate()
+
+  const handleSubmit = async () => {
     if (!formData.aceite) return alert("Você deve aceitar os termos");
+
+    await apiService.post('stores',{
+      name: formData.nomeLoja,
+      phone: formData.telefone
+    },{withCredentials: true})
+
+    await apiService.put('users/profile',{
+      role: 1
+    },{withCredentials: true})
+
+    navigate('/usuario')
+
     console.log('Dados enviados:', formData);
   };
 
