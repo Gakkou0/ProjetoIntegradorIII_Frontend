@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 
 import { useNavigate } from 'react-router-dom';
+import NavBottom from '../components/navBottom';
 
 export default function Notificacoes() {
   const notificacoesMock = [
@@ -55,20 +56,7 @@ export default function Notificacoes() {
         ))}
       </div>
 
-      <div className="bg-orange-500 p-3 flex justify-around text-white fixed bottom-0 w-full md:relative z-50">
-        <button onClick={() => navigate('/telainicial')}>
-          <Home size={24} />
-        </button>
-        <button onClick={() => navigate('/carrinho')}>
-          <ShoppingCart size={24} />
-        </button>
-        <button onClick={() => navigate('/notificacoes')}>
-          <Bell size={24} />
-        </button>
-        <button onClick={() => navigate('/usuario')}>
-          <User size={24} />
-        </button>
-      </div>
+      <NavBottom></NavBottom>
     </div>
   );
 }

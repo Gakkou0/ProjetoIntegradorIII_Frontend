@@ -1,24 +1,32 @@
+import {useState, useEffect} from 'react'
+import PageMeta from '../components/PageMeta';
 
 export default function CadastroEndereco() {
+
+  const [address, setAddress] = useState()
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <div className="w-full max-w-xs bg-white rounded-lg shadow-lg">
-        {/* Topo com logo */}
+    <div className="min-h-screen w-full bg-white flex items-center justify-center px-4 py-6">
+      <div className="w-full max-w-md lg:max-w-2xl shadow-lg rounded-lg overflow-hidden">
+        <PageMeta title='Cadastro de endereço'></PageMeta>
         <div className="bg-orange-500 p-6 text-center">
-          <img src="/logo-crateus-shop.png" alt="Logo" className="mx-auto mb-2 w-16" />
+          <img
+            src="/logo-crateus-shop.png"
+            alt="Logo"
+            className="mx-auto mb-2 w-16 md:w-20"
+          />
         </div>
 
-        <div className="px-6 py-4">
-          <h2 className="text-xl font-semibold text-center mb-4">Olá, Bem vindo!</h2>
+        <div className="px-6 py-6 md:px-10 md:py-8 bg-white">
+          <h2 className="text-xl md:text-2xl font-semibold text-center mb-4">Olá, Bem vindo!</h2>
 
-          {/* Barra de progresso fake */}
-          <div className="flex items-center mb-4">
+          <div className="flex items-center mb-6">
             <div className="flex-grow h-1 bg-green-500 rounded" />
             <span className="mx-2 text-sm text-gray-700">2</span>
             <div className="flex-grow h-1 bg-green-500 rounded" />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-4">
             <input
               type="text"
               placeholder="CRATEÚS   Rua..."
@@ -26,7 +34,7 @@ export default function CadastroEndereco() {
             />
           </div>
 
-          <div className="mb-3">
+          <div className="mb-4">
             <input
               type="text"
               placeholder="Bairro"
@@ -34,7 +42,7 @@ export default function CadastroEndereco() {
             />
           </div>
 
-          <div className="mb-3 flex gap-2">
+          <div className="mb-4 flex gap-2">
             <input
               type="text"
               placeholder="Nº"
@@ -47,7 +55,7 @@ export default function CadastroEndereco() {
             />
           </div>
 
-          <div className="mb-5">
+          <div className="mb-6">
             <input
               type="text"
               placeholder="Ponto de referência"

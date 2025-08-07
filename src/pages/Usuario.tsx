@@ -1,7 +1,4 @@
 import {
-  Home,
-  ShoppingCart,
-  Bell,
   User,
   Truck,
   Star,
@@ -10,13 +7,47 @@ import {
   Heart,
   Megaphone,
   AlertTriangle,
-  HelpCircle,
+  HelpCircle
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'; 
+import NavBottom from '../components/navBottom';
+import apiService from '../services/apiService';
+import { useEffect, useState } from 'react';
+import UserInfo from '../types/User'
 
 export default function Usuario() {
-  const nomeUsuario = 'userteste';
+  
+  const [ user, setUser ] = useState<UserInfo>();
+  
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await apiService.get('users/profile', {
+        withCredentials:true
+      })
+      
+      console.log(response.data)
+      const userResponse = {
+        userName: response.data.username,
+        userRole: response.data.role,
+        userIconURL: ''
+      } as UserInfo
+
+      setUser(userResponse)
+    }
+    fetchUser()
+  }, [])
+
+  const logout = async () => {
+    try{
+      await apiService.post('logout/',{},{withCredentials: true}) 
+    }
+    finally{
+      navigate('/')
+    }
+  }
 
   const acoes = [
     { label: 'Seja vendedor', icon: <Store size={18} className="text-pink-600" />, rota: '/cadastroloja' },
@@ -28,14 +59,14 @@ export default function Usuario() {
   ];
 
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col pb-20"> {/* espaço pro menu fixo */}
+    <div className="min-h-screen w-full bg-white flex flex-col"> {/* espaço pro menu fixo */}
       
       <div className="flex-1">
         <div className="bg-orange-500 p-6 flex flex-col items-center text-white">
           <div className="w-20 h-20 rounded-full bg-orange-200 flex items-center justify-center text-orange-700 mb-2">
             <User size={32} />
           </div>
-          <p className="font-semibold text-lg">{nomeUsuario}</p>
+          <p className="font-semibold text-lg">{user?.userName}</p>
         </div>
 
         <div className="px-4 py-3 border-b">
@@ -73,26 +104,12 @@ export default function Usuario() {
         </div>
 
         <div className="max-w-4xl w-full mx-auto px-4 mt-4">
-          <button className="bg-red-600 hover:bg-red-700 w-full text-white py-2 rounded font-semibold">
+          <button className="bg-red-600 hover:bg-red-700 w-full text-white py-2 rounded font-semibold" onClick={logout}>
             SAIR
           </button>
         </div>
       </div>
-
-      <div className="bg-orange-500 p-3 flex justify-around text-white fixed bottom-0 w-full z-50">
-        <button onClick={() => navigate('/telainicial')}>
-          <Home size={24} />
-        </button>
-        <button onClick={() => navigate('/carrinho')}>
-          <ShoppingCart size={24} />
-        </button>
-        <button onClick={() => navigate('/notificacoes')}>
-          <Bell size={24} />
-        </button>
-        <button onClick={() => navigate('/usuario')}>
-          <User size={24} />
-        </button>
-      </div>
+        <NavBottom></NavBottom>
     </div>
   );
 }

@@ -1,10 +1,25 @@
-import { ArrowLeft, Minus, Plus } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowLeft, Minus, Plus, BadgeX } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import NavBottom from '../components/navBottom';
+import apiService from '../services/apiService';
 
 export default function Carrinho() {
   const [quantidade, setQuantidade] = useState(1);
   const [selecionado, setSelecionado] = useState(true);
   const [selecionarTudo, setSelecionarTudo] = useState(true);
+  const [hasCartItem, setHasCartItem] = useState(false);
+
+  useEffect(() => {
+    const feachCart = async () => {
+      try{
+        const response = await apiService.post('/products/cart', {
+            withCredentials: true})
+      }
+      catch{
+        return 
+      }
+    }
+  }, [])
 
   const produto = {
     id: 1,
@@ -23,6 +38,7 @@ export default function Carrinho() {
     setSelecionado(novoValor);
   };
 
+  if(hasCartItem){
   return (
     <div className="min-h-screen w-full bg-white flex flex-col">
       <div className="max-w-4xl mx-auto w-full flex items-center px-4 py-3 border-b border-orange-200">
@@ -79,7 +95,7 @@ export default function Carrinho() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t z-50">
+      <div className="fixed bottom-12 left-0 right-0 bg-white border-t z-50">
         <div className="max-w-4xl mx-auto w-full px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <input
@@ -98,6 +114,24 @@ export default function Carrinho() {
           </div>
         </div>
       </div>
+      <NavBottom></NavBottom>
     </div>
   );
+  }else{
+    return (
+      <div className="min-h-screen w-full bg-white flex flex-col">
+      <div className="max-w-4xl mx-auto w-full flex items-center px-4 py-3 border-b border-orange-200">
+        <ArrowLeft className="text-gray-700 mr-2" size={20} />
+        <h2 className="text-lg font-semibold">Carrinho</h2>
+      </div>
+      <div className="max-w-4xl mx-auto w-full flex-1 overflow-y-auto px-4 py-2">
+        <div className="flex flex-col items-center justify-center text-lg font-semibold h-full min-h-[300px]">
+          <BadgeX size={100} color="#a3a3a3ff" />
+          <span className="mt-4">Seu carrinho está vazio</span>
+        </div>
+      </div>
+      <NavBottom></NavBottom>
+    </div>
+    )
+  }
 }
